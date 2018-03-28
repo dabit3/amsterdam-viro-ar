@@ -1,0 +1,4 @@
+platform :ios, '9.3'
+target 'ViroSample' do
+  pod 'ViroReact', :path => '../node_modules/react-viro/ios/'
+end

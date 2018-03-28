@@ -1,0 +1,16 @@
+PODS:
+  - ViroReact (1.0)
+
+DEPENDENCIES:
+  - ViroReact (from `../node_modules/react-viro/ios/`)
+
+EXTERNAL SOURCES:
+  ViroReact:
+    :path: ../node_modules/react-viro/ios/
+
+SPEC CHECKSUMS:
+  ViroReact: 02ac085cdd9a09ec251538f28ee133dbc6af00e7
+
+PODFILE CHECKSUM: 8ccd2dd5345e822bf71a1bb754be50f0805a0c2e
+
+COCOAPODS: 1.4.0

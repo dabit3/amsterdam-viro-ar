@@ -1,0 +1,23 @@
+{
+	"ProjectName": "ViroSample",
+	"ProjectPath": "/Users/naderdabit/demos/ViroSample",
+	"SourceDir": "js",
+	"DistributionDir": "build",
+	"BuildCommand": "npm run-script build",
+	"StartCommand": "npm run-script start",
+	"InitializationTime": "2018-03-06-21-07-57",
+	"LastConfigurationTime": "2018-03-06-21-08-00",
+	"LastNPMInstallTime": "",
+	"FrontendLastBuildTime": "",
+	"LastPublishTime": "",
+	"BackendFormat": "yml",
+	"BackendLastSyncTime": "2018-03-07-09-15-01",
+	"BackendLastBuildTime": "2018-03-07-09-14-45",
+	"BackendLastPushTime": "2018-03-07-09-14-57",
+	"BackendLastPushSuccessful": true,
+	"BackendProjectID": "88b5cd7a-21c5-11e8-819f-0b05622f0656",
+	"BackendProjectName": "AmsterdamAR",
+	"BackendProjectConsoleUrl": "https://console.aws.amazon.com/mobilehub/home#/88b5cd7a-21c5-11e8-819f-0b05622f0656/build",
+	"BackendProjectCreationTime": "2018-03-07T05:08:12.224Z",
+	"BackendProjectLastUpdatedTime": "2018-03-07T17:14:56.895Z"
+}
