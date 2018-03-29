@@ -30,20 +30,8 @@ class AddImage extends React.Component {
     chosenImageUrl: '',
     base64Data: '',
     imageType: '',
-    uploading: false
-  }
-  componentDidMount() {
-    Storage.get('29f5cd3d-5f6f-453f-84bd-50f2ad08895f')
-      .then(data => {
-        console.log('data: ', data)
-        this.setState({
-          chosenImageUrl: data
-        })
-        console.log('data: ', data)
-      })
-      .catch(err => {
-        console.log('error..: ', err)
-      })
+    uploading: false,
+    processing: false
   }
   getPhotos = () => {
     CameraRoll.getPhotos({
@@ -51,8 +39,6 @@ class AddImage extends React.Component {
       assetType: 'All',
     })
     .then(r => {
-      console.log('r:', r)
-      console.log('end: ', r.page_info.end_cursor)
       this.setState({
         images: r.edges,
         modalVisible: true,
@@ -80,7 +66,7 @@ class AddImage extends React.Component {
   }
   chooseImage(image) {
     const mimeType = mime.lookup(image.filename);
-    this.setState({ modalVisible: false, chosenImageUrl: image.uri })
+    this.setState({ processing: true, modalVisible: false, chosenImageUrl: image.uri })
     
     RNFS.copyAssetsFileIOS(
       image.uri,
@@ -94,6 +80,7 @@ class AddImage extends React.Component {
           .then(imageData => {
             this.setState({
               base64Data: imageData,
+              processing: false
             })
           })
           .catch(err => console.log('err:', err))
@@ -103,13 +90,14 @@ class AddImage extends React.Component {
       })
   }
   addPhoto = () => {
+    if (!this.state.base64Data || this.state.base64Data === '') return
     this.setState({
       uploading: true
     })
     Storage.put(
       uuidV4(),
       new Buffer(this.state.base64Data, 'base64'),
-      { contentType: 'image/jpeg' }
+      { contentType: 'image/jpeg', level: 'public' }
     )
     // console.log('adding photo...')
     // Storage.put(
@@ -120,7 +108,7 @@ class AddImage extends React.Component {
     //   }
     // )
     .then(success => {
-      this.setState({ uploading: false })
+      this.setState({ uploading: false, base64Data: '', chosenImageUrl: '' })
       console.log('success! :', success)}
     )
     .catch(err => console.log('error: ', err))
@@ -139,6 +127,7 @@ class AddImage extends React.Component {
         {
           this.state.chosenImageUrl !== '' && (
             <Image
+              resizeMode='contain'
               style={styles.image}
               source={{ uri: this.state.chosenImageUrl }}
             />
@@ -155,10 +144,25 @@ class AddImage extends React.Component {
           </View>
         </TouchableOpacity> */}
         <TouchableOpacity
-          onPress={this.addPhoto}
+          onPress={this.state.uploading || this.state.processing ? null : this.addPhoto}
         >
-          <View style={styles.button}>
-            <Text>Add Image</Text>
+          <View style={[styles.button, this.state.processing || this.state.uploading && {backgroundColor: '#ededed'}]}>
+            {
+              this.state.processing ? (
+                <View style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}>
+                  <Text style={{ marginRight: 16 }}>Processing image</Text>
+                  <ActivityIndicator />
+                </View>
+              ) : this.state.uploading ? (
+                <Text>Uploading Image</Text>
+              ) : (
+                <Text>Add Image</Text>
+              )
+            }
           </View>
         </TouchableOpacity>
 
@@ -175,6 +179,7 @@ class AddImage extends React.Component {
                 this.state.images.map(({ node: { image } }, i) => (
                   <TouchableOpacity onPress={() => this.chooseImage(image)} key={i}>
                     <Image
+                      resizeMode='contain'
                       style={styles.image}
                       source={{ uri: image.uri }}
                     />

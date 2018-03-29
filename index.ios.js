@@ -49,10 +49,9 @@ class ViroSample extends Component {
   render() {
     return this._getARNavigator();
   }
-
   _getARNavigator() {
     return (
-      <View style={{ flex: 1, backgroundColor:'red' }}>
+      <View style={{ flex: 1 }}>
         <ViroARSceneNavigator
           {...this.state.sharedProps}
           initialScene={{scene: InitialARScene}}
